@@ -4,7 +4,7 @@ Welcome to the JotPsych Full Stack Coding Challenge! This test is designed to as
 
 ## Objective
 
-Complete the given Flask API and React application, expand them based on the tasks outline below, and write about your approach and plans in a Notes.md file. Keep notes on any major problems you encounter, your debugging steps, and how you come to solutions.
+Complete the given Flask API and React application, expand them based on the tasks outline below, and write about your approach and plans in a `notes.md` file. Keep notes on any major problems you encounter, your debugging steps, and how you come to solutions.
 
 ## Getting Started
 
@@ -76,6 +76,10 @@ Complete the given Flask API and React application, expand them based on the tas
 3. Mock a python function that mimics the process of sending this audio to a third party transcription service that returns a transcript of the audio. (BONUS: If you moved quickly through everything else and want to actually implement a local transcription model, go ahead!)
 4. Save this transcription text to the user database as the user's motto and update the user profile to display their self-recorded motto.
 
+### Encrypt it
+
+1. We don't want to store the patient's motto in plaintext. Encrypt it when you store it and decrypt it when you retrieve it.
+
 ### Make it Async
 
 1. Change the mock transcription function so that it takes a random amount of time between 5 and 15 seconds to return.
@@ -83,7 +87,7 @@ Complete the given Flask API and React application, expand them based on the tas
 
 ### Anything else
 
-1. If you still have time (wow!), show us your skills and add something else to the application. Make the recorder more fully featured, add additional security, explain how you would build this for enterprise scale, etc. Show insight and initiative!
+1. Use the rest of your time to show us your skills and add something else to the application. Make the recorder more fully featured, add additional security, explain how you would build this for enterprise scale, etc. Show insight and initiative!
 
 ## Important Notes
 
