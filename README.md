@@ -60,7 +60,7 @@ Complete the given Flask API and React application, expand them based on the tas
 2. Implement the logic to have the `/login` and `/register` endpoints store the authentication token in such a way that the rest of the application can access it.
 3. Create a `/logout` functionality in the frontend.
 4. Use MUI (or other component library) to make the auth components _slightly_ more stylish. (Spend very little time on this!)
-5. Create a user profile component to fetch and display user data after login. Add corresponding required data to `/register` endpoint and Register component.
+5. Create a user profile component according to the wireframe in `wireframes/profile_screen.png` to fetch and display user data after login. Add corresponding required data to `/register` endpoint and Register component.
 
 ### Version Management
 
