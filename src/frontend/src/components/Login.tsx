@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import APIService from "../services/APIService";
 
 function Login() {
   const [username, setUsername] = useState<string>("");
@@ -8,18 +9,20 @@ function Login() {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    const response = await fetch("http://localhost:3002/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ username, password }),
-    });
-    const data = await response.json();
-    if (response.ok) {
-      // do something with access token
-      localStorage.setItem("token", data.token);
-      navigate("/user");
+    try {
+      const response = await APIService.request("/login", "POST", {
+        username,
+        password,
+      });
+
+      if (response.token) {
+        localStorage.setItem("token", response.token);
+        navigate("/user");
+      } else {
+        console.error("Login failed:", response.message);
+      }
+    } catch (error) {
+      console.error("Login error:", error);
     }
   };
 

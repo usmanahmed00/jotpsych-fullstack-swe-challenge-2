@@ -28,11 +28,13 @@ class APIService {
 
     if (auth) {
       // get access token somehow
+      const token = localStorage.getItem("token");
       if (token) {
         headers["Authorization"] = `Bearer ${token}`;
       }
     }
-
+    console.log(method);
+    console.log(body);
     const response = await fetch(`${this.baseUrl}${endpoint}`, {
       method,
       headers,
@@ -42,7 +44,7 @@ class APIService {
     if (!response.ok) {
       throw new Error("Network response was not ok");
     }
-
+    console.log(response);
     return response.json();
   }
 }

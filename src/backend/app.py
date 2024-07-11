@@ -4,11 +4,16 @@ from flask_bcrypt import Bcrypt
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
 from flask_cors import CORS
 
+from packaging import version
+
 import os
 
 db = SQLAlchemy()
 bcrypt = Bcrypt()
 jwt = JWTManager()
+
+
+
 
 
 def create_app():
@@ -21,7 +26,7 @@ def create_app():
     CORS(
         app,
         resources={r"*": {"origins": ["*"]}},
-        allow_headers=["Authorization", "Content-Type"],
+        allow_headers=["Authorization", "Content-Type", "app-version"],
         methods=["GET", "POST", "OPTIONS"],
         max_age=86400
     )
@@ -32,6 +37,22 @@ def create_app():
 
     with app.app_context():
         db.create_all()
+
+    def check_app_version():
+        @app.before_request
+        def check_version():
+            app_version = request.headers.get('app-version')
+            if app_version and version.parse(app_version) < version.parse('1.2.0'):
+                return jsonify({
+                    'message': 'Please update your client application to the latest version.',
+                    'current_version': app_version,
+                    'required_version': '1.2.0'
+                }), 426  # 426 Upgrade Required
+
+        return None
+    
+    app.before_request(check_app_version())
+
 
     @app.route('/')
     def index():

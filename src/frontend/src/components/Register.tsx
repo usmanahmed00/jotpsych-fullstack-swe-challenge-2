@@ -1,21 +1,19 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import APIService from "../services/APIService";
 
 function Register() {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [message, setMessage] = useState<string>("");
+  const navigate = useNavigate();
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
-    const response = await fetch("http://localhost:3002/register", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ username, password }),
+    await APIService.request("/register", "POST", {
+      username,
+      password,
     });
-    const data = await response.json();
-    setMessage(data.message);
+    navigate("/login");
   };
 
   return (

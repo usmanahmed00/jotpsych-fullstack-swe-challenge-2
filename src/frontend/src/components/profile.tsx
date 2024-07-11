@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import APIService from "../services/APIService";
 
 const UserProfile = () => {
   const [profile, setProfile] = useState({ username: "", motto: "" });
@@ -14,18 +15,8 @@ const UserProfile = () => {
 
     const fetchProfile = async () => {
       try {
-        const response = await fetch("http://localhost:3002/user", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        if (!response.ok) {
-          throw new Error("Error fetching user");
-        }
-        const data = await response.json();
-        setProfile(data);
+        const response = await APIService.request("/user", "GET", null, true);
+        setProfile(response);
       } catch (error) {
         console.error("There was an error fetching the profile data!", error);
       }
@@ -36,16 +27,7 @@ const UserProfile = () => {
 
   const handleLogout = async () => {
     try {
-      const response = await fetch("http://localhost:3002/logout", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
-      if (!response.ok) {
-        throw new Error("Error logging out");
-      }
+      await APIService.request("/logout", "GET", null, true);
       localStorage.removeItem("token");
       setProfile({ username: "", motto: "" });
       navigate("/login");
