@@ -33,13 +33,16 @@ class APIService {
         headers["Authorization"] = `Bearer ${token}`;
       }
     }
-    console.log(method);
-    console.log(body);
     const response = await fetch(`${this.baseUrl}${endpoint}`, {
       method,
       headers,
       body: body ? JSON.stringify(body) : null,
     });
+
+    if (response.status === 426) {
+      const data = await response.json();
+      throw new Error(data.message);
+    }
 
     if (!response.ok) {
       throw new Error("Network response was not ok");

@@ -5,6 +5,8 @@ import APIService from "../services/APIService";
 function Login() {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [message, setMessage] = useState<string>("");
+
   const navigate = useNavigate();
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -23,6 +25,7 @@ function Login() {
       }
     } catch (error) {
       console.error("Login error:", error);
+      setMessage((error as any).message);
     }
   };
 
@@ -48,6 +51,7 @@ function Login() {
         </div>
         <button type="submit">Login</button>
       </form>
+      {message && <p>{message}</p>}
     </div>
   );
 }

@@ -5,15 +5,22 @@ import APIService from "../services/APIService";
 function Register() {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [message, setMessage] = useState<string>("");
   const navigate = useNavigate();
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
-    await APIService.request("/register", "POST", {
-      username,
-      password,
-    });
-    navigate("/login");
+    try {
+      await APIService.request("/register", "POST", {
+        username,
+        password,
+      });
+
+      navigate("/login");
+    } catch (error) {
+      console.error("Register error:", error);
+      setMessage((error as any).message);
+    }
   };
 
   return (
