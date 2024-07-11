@@ -55,6 +55,7 @@ def create_app():
             access_token = create_access_token(
                 identity={'username': user.username})
             session['auth_token'] = access_token
+            session['username'] = user.username
             return jsonify({'token': access_token}), 200
         return jsonify({'message': 'Invalid credentials'}), 401
 
@@ -70,9 +71,13 @@ def create_app():
             }), 200
         return jsonify({'message': 'User not found'}), 404
     
-    @app.route('/logout')
+    @app.route('/logout', methods=['GET'])
+    @jwt_required()
     def logout():
-        session.pop('auth_token', None)
+        current_user = get_jwt_identity()
+        if session.get('username', None) == current_user['username']:
+            session.pop('username', None)
+            session.pop('auth_token', None)
         return jsonify({'message': 'User logged out succesfully'}), 200
 
     return app

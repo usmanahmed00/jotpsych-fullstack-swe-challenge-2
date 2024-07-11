@@ -1,9 +1,10 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [message, setMessage] = useState<string>("");
+  const navigate = useNavigate();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -17,10 +18,8 @@ function Login() {
     const data = await response.json();
     if (response.ok) {
       // do something with access token
-
-      setMessage("Login successful");
-    } else {
-      setMessage(data.message);
+      localStorage.setItem("token", data.token);
+      navigate("/user");
     }
   };
 
@@ -46,7 +45,6 @@ function Login() {
         </div>
         <button type="submit">Login</button>
       </form>
-      {message && <p>{message}</p>}
     </div>
   );
 }
