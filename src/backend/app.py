@@ -61,7 +61,13 @@ def create_app():
     @jwt_required()
     def user():
         current_user = get_jwt_identity()
-        # return user information
+        user = User.query.filter_by(username=current_user['username']).first()
+        if user:
+            return jsonify({
+                'id': user.id,
+                'username': user.username
+            }), 200
+        return jsonify({'message': 'User not found'}), 404
 
     return app
 
