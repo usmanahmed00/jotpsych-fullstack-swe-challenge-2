@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, session
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
@@ -54,6 +54,7 @@ def create_app():
         if user and bcrypt.check_password_hash(user.password, data['password']):
             access_token = create_access_token(
                 identity={'username': user.username})
+            session['auth_token'] = access_token
             return jsonify({'token': access_token}), 200
         return jsonify({'message': 'Invalid credentials'}), 401
 
