@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, session
+from flask import Flask, request, jsonify, session, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
@@ -69,6 +69,11 @@ def create_app():
                 'username': user.username
             }), 200
         return jsonify({'message': 'User not found'}), 404
+    
+    @app.route('/logout')
+    def logout():
+        session.pop('auth_token', None)
+        return jsonify({'message': 'User logged out succesfully'}), 200
 
     return app
 
